@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria - XatSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=VT323&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --pink-neon: #ff007f;
+            --pink-pastel: #ffcce6;
+            --pink-deep: #5e0e35;
+            --black-base: #050505;
+            --gradient-pink: linear-gradient(135deg, var(--pink-deep), var(--pink-neon));
+            --black-glass: rgba(20, 10, 15, 0.25); 
+            --font-tech: 'VT323', monospace;
+            --font-clean: 'Montserrat', sans-serif;
+            --font-cursive: 'Great Vibes', cursive;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: default; } 
+        body { background-color: var(--black-base); color: #fff; font-family: var(--font-clean); height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; position: relative; }
+        .innovative-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; }
+        .bg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(94, 14, 53, 0.2), rgba(0, 0, 0, 0.9)); }
+        .mouse-sparkle { position: absolute; pointer-events: none; z-index: 9999; background: radial-gradient(circle, #fff 10%, var(--pink-neon) 60%, transparent 100%); border-radius: 50%; transform: translate(-50%, -50%); animation: sparkleAnim 0.8s linear forwards; box-shadow: 0 0 10px var(--pink-neon); }
+        @keyframes sparkleAnim { 0% { transform: scale(1) translate(-50%, -50%); opacity: 1; } 100% { transform: scale(0.1) translate(-50%, -50%); opacity: 0; } }
+        #enter-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 2000; transition: opacity 0.8s ease; }
+        #enter-btn { padding: 15px 50px; background: var(--black-base); color: var(--pink-pastel); border: 2px solid var(--pink-neon); border-radius: 50px; transition: 0.4s; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;}
+        #enter-btn:hover { background: var(--pink-neon); color: #fff; box-shadow: 0 0 30px var(--pink-neon); transform: scale(1.05); }
+        #main-layout { display: flex; width: 900px; max-width: 95%; height: 600px; background: var(--black-glass); border-radius: 40px; backdrop-filter: blur(15px); border: 1px solid rgba(255, 0, 127, 0.2); transition: 0.8s; position: relative; animation: breathingGlowPink 4s infinite alternate ease-in-out; }
+        @keyframes breathingGlowPink { 0% { box-shadow: 0 0 30px rgba(94, 14, 53, 0.3); } 100% { box-shadow: 0 0 50px rgba(255, 0, 127, 0.4); } }
+        .hidden-layout { opacity: 0; transform: scale(0.9) translateY(50px); pointer-events: none; }
+        .sidebar-gold { width: 300px; background: linear-gradient(180deg, rgba(20, 20, 20, 0.4), rgba(94, 14, 53, 0.1)); padding: 30px 20px; display: flex; flex-direction: column; align-items: center; border-right: 1px solid rgba(255, 0, 127, 0.2); }
+        .pfp-blue { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--pink-neon); box-shadow: 0 0 25px var(--pink-neon); animation: float 4s ease-in-out infinite; object-fit: cover; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .cursive-name { font-family: var(--font-cursive); font-size: 3.5rem; background: linear-gradient(180deg, #fff 20%, var(--pink-neon) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .uid-gold { font-family: var(--font-tech); color: var(--pink-pastel); letter-spacing: 2px; margin-bottom: 30px; }
+        .nav-menu { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .nav-btn-gold { width: 100%; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--pink-deep); border-radius: 8px; color: #fff; text-align: left; font-weight: 700; cursor: pointer; transition: 0.4s; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
+        .nav-btn-gold:hover { background: var(--gradient-pink); box-shadow: 0 0 20px var(--pink-neon); transform: translateX(5px); }
+        .content-area-gold { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 40px; text-align: center;}
+        .center-title-fem { font-family: var(--font-cursive); font-size: 5rem; color: var(--pink-neon); text-shadow: 0 0 15px var(--pink-neon); }
+        #typing-text { font-family: var(--font-cursive); font-size: 2.5rem; color: var(--pink-pastel); }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.4s; backdrop-filter: blur(10px); background: rgba(0,0,0,0.6); }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: rgba(8, 8, 8, 0.9); border: 1px solid var(--pink-neon); padding: 35px; border-radius: 20px; width: 90%; max-width: 600px; color: #fff; position: relative;}
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; cursor: pointer; color: #777; transition: 0.3s; }
+        .close-btn:hover { color: var(--pink-neon); transform: rotate(90deg); }
+        .music-player-gold { display: flex; align-items: center; gap: 20px; }
+        .vinyl-record-gold { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--pink-neon); display: flex; justify-content: center; align-items: center; font-size: 1.5rem; color: var(--pink-neon); }
+        .vinyl-spin { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .fake-bar-gold { width: 100%; height: 4px; background: #333; margin-top: 15px; border-radius: 2px; overflow: hidden;}
+        .fill-gold { height: 100%; background: var(--pink-neon); width: 0%; box-shadow: 0 0 10px var(--pink-neon); }
+        .watermark-ghost { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 10px; opacity: 0.3; transition: 0.5s; z-index: 9999; pointer-events: none;}
+        .watermark-ghost a { color: #fff; text-decoration: none; font-weight: 700; pointer-events: auto;}
+    </style>
+</head>
+<body>
+    <div class="innovative-bg"><div class="bg-overlay"></div></div>
+    <div id="enter-screen"><button id="enter-btn"><i class="fa-solid fa-heart"></i> ENTER</button></div>
+    <main id="main-layout" class="hidden-layout">
+        <aside class="sidebar-gold">
+            <div class="profile-center-glow"><img src="https://xatimg.com/image/4u7TRBmhYWHb.jpg" alt="PFP" class="pfp-blue"></div>
+            <div class="name-container"><h1 class="cursive-name">Maria</h1></div>
+            <span class="uid-gold">ID: 1536238631</span>
+            <nav class="nav-menu">
+                <button class="nav-btn-gold" onclick="openModal('modal-profile')"><i class="fa-solid fa-user"></i> Profile</button>
+                <button class="nav-btn-gold" onclick="openModal('modal-music')"><i class="fa-solid fa-music"></i> Music</button>
+            </nav>
+        </aside>
+        <section class="content-area-gold">
+            <div class="welcome-message">
+                <h2 class="center-title-fem">Maria</h2>
+                <div class="text-wrapper"><p id="typing-text"></p></div>
+            </div>
+        </section>
+    </main>
+    <div id="modal-profile" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-profile')">&times;</span>
+            <h3>PROFILE</h3>
+            <p style="font-family: var(--font-cursive); font-size: 1.8rem; color: var(--pink-neon);">"Maria."</p>
+            <ul style="list-style: none; margin-top: 20px; line-height: 2.5; font-size: 1.1rem;">
+                <li><strong>Nationality:</strong> Maroc</li>
+                <li><strong>Hobby:</strong> Swimming and traveling</li>
+                <li><strong>Zodiac Sign:</strong> Lion</li>
+            </ul>
+        </div>
+    </div>
+    <div id="modal-music" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-music')">&times;</span>
+            <h3>MUSIC PLAYER</h3>
+            <div class="music-player-gold">
+                <div class="vinyl-record-gold" id="vinyl"><i class="fas fa-compact-disc"></i></div>
+                <div style="flex-grow:1">
+                    <h4 id="song-title">Halsey</h4>
+                    <p id="song-artist" style="font-size: 0.8rem; opacity: 0.6;"> Without Me</p>
+                    <div class="fake-bar-gold"><div class="fill-gold" id="progress-bar"></div></div>
+                    <button onclick="togglePlay()" class="nav-btn-gold" style="width:auto; margin-top:15px; padding:10px 20px;"><i id="play-icon" class="fas fa-play"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="watermark-ghost"><a href="#">K </a> <span></span></div>
+    <audio id="audio" src="https://files.catbox.moe/v8krlm.mp3" loop></audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('mousemove', (e) => {
+                if(Math.random() > 0.4) return;
+                const sparkle = document.createElement('div');
+                sparkle.className = 'mouse-sparkle';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                const size = Math.random() * 5 + 3 + 'px';
+                sparkle.style.width = size; sparkle.style.height = size;
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 800);
+            });
+            const enterBtn = document.getElementById('enter-btn'), enterScreen = document.getElementById('enter-screen'), mainLayout = document.getElementById('main-layout'), typingText = document.getElementById('typing-text'), audio = document.getElementById('audio'), progressBar = document.getElementById('progress-bar'), playIcon = document.getElementById('play-icon'), vinyl = document.getElementById('vinyl');
+            enterBtn.addEventListener('click', () => {
+                enterScreen.style.opacity = '0';
+                setTimeout(() => { enterScreen.style.display = 'none'; mainLayout.classList.remove('hidden-layout'); startTypewriter(); }, 800);
+            });
+            function startTypewriter() {
+                const msg = "Beautiful Moments Never Fade."; let i = 0; typingText.innerHTML = "";
+                function type() { if (i < msg.length) { typingText.innerHTML += msg.charAt(i); i++; setTimeout(type, 50); } }
+                type();
+            }
+            window.openModal = (id) => { document.getElementById(id).classList.add('active'); };
+            window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+            window.togglePlay = () => {
+                if (audio.paused) { audio.play().catch(() => {}); playIcon.className = "fas fa-pause"; vinyl.classList.add('vinyl-spin'); }
+                else { audio.pause(); playIcon.className = "fas fa-play"; vinyl.classList.remove('vinyl-spin'); }
+            };
+            audio.ontimeupdate = () => { progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%"; };
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('keydown', e => { if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault(); });
+        });
+    </script>
+</body>
+</html>
