@@ -118,25 +118,64 @@
                 document.body.appendChild(sparkle);
                 setTimeout(() => sparkle.remove(), 800);
             });
-            const enterBtn = document.getElementById('enter-btn'), enterScreen = document.getElementById('enter-screen'), mainLayout = document.getElementById('main-layout'), typingText = document.getElementById('typing-text'), audio = document.getElementById('audio'), progressBar = document.getElementById('progress-bar'), playIcon = document.getElementById('play-icon'), vinyl = document.getElementById('vinyl');
+
+            const enterBtn = document.getElementById('enter-btn'), 
+                  enterScreen = document.getElementById('enter-screen'), 
+                  mainLayout = document.getElementById('main-layout'), 
+                  typingText = document.getElementById('typing-text'), 
+                  audio = document.getElementById('audio'), 
+                  progressBar = document.getElementById('progress-bar'), 
+                  playIcon = document.getElementById('play-icon'), 
+                  vinyl = document.getElementById('vinyl');
+
             enterBtn.addEventListener('click', () => {
                 enterScreen.style.opacity = '0';
-                setTimeout(() => { enterScreen.style.display = 'none'; mainLayout.classList.remove('hidden-layout'); startTypewriter(); }, 800);
+                
+                // تشغيل الأغنية فوراً عند الضغط
+                audio.play().then(() => {
+                    playIcon.className = "fas fa-pause";
+                    vinyl.classList.add('vinyl-spin');
+                }).catch(err => console.log("Auto-play blocked"));
+
+                setTimeout(() => { 
+                    enterScreen.style.display = 'none'; 
+                    mainLayout.classList.remove('hidden-layout'); 
+                    startTypewriter(); 
+                }, 800);
             });
+
             function startTypewriter() {
                 const msg = "Beautiful Moments Never Fade."; let i = 0; typingText.innerHTML = "";
                 function type() { if (i < msg.length) { typingText.innerHTML += msg.charAt(i); i++; setTimeout(type, 50); } }
                 type();
             }
+
             window.openModal = (id) => { document.getElementById(id).classList.add('active'); };
             window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+            
             window.togglePlay = () => {
-                if (audio.paused) { audio.play().catch(() => {}); playIcon.className = "fas fa-pause"; vinyl.classList.add('vinyl-spin'); }
-                else { audio.pause(); playIcon.className = "fas fa-play"; vinyl.classList.remove('vinyl-spin'); }
+                if (audio.paused) { 
+                    audio.play(); 
+                    playIcon.className = "fas fa-pause"; 
+                    vinyl.classList.add('vinyl-spin'); 
+                }
+                else { 
+                    audio.pause(); 
+                    playIcon.className = "fas fa-play"; 
+                    vinyl.classList.remove('vinyl-spin'); 
+                }
             };
-            audio.ontimeupdate = () => { progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%"; };
+
+            audio.ontimeupdate = () => { 
+                if (audio.duration) {
+                    progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%"; 
+                }
+            };
+
             document.addEventListener('contextmenu', e => e.preventDefault());
-            document.addEventListener('keydown', e => { if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault(); });
+            document.addEventListener('keydown', e => { 
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault(); 
+            });
         });
     </script>
 </body>
